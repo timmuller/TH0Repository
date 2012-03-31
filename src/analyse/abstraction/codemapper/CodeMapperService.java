@@ -1,4 +1,4 @@
-package com.hu.husacct.analyse.abstraction.codemapper;
+package analyse.abstraction.codemapper;
 
 public interface CodeMapperService {
 	

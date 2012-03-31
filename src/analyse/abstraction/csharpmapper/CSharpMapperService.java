@@ -1,4 +1,4 @@
-package com.hu.husacct.analyse.abstraction.csharpmapper;
+package analyse.abstraction.csharpmapper;
 
 public interface CSharpMapperService {
 	

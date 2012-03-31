@@ -1,4 +1,4 @@
-package com.hu.husacct.analyse.abstraction.javamapper;
+package analyse.abstraction.javamapper;
 
 class JavaMapper {
 

@@ -1,8 +1,8 @@
-package com.hu.husacct.analyse.domain.stubs;
+package analyse.domain.stubs;
 
-import com.hu.husacct.analyse.domain.analyseservice.AnalyseService;
-import com.hu.husacct.analyse.domain.analyseservice.dto.AnalysedModuleDTO;
-import com.hu.husacct.analyse.domain.analyseservice.dto.DependencyDTO;
+import analyse.domain.analyseservice.AnalyseService;
+import analyse.domain.analyseservice.dto.AnalysedModuleDTO;
+import analyse.domain.analyseservice.dto.DependencyDTO;
 
 public class AnalyseServiceStub implements AnalyseService{
 

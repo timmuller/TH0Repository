@@ -1,4 +1,4 @@
-package com.hu.husacct.analyse.task;
+package analyse.task;
 
 public interface AnalyseControlService {
 	//TODO Implement Logic

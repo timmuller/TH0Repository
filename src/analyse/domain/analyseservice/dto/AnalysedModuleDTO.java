@@ -1,4 +1,4 @@
-package com.hu.husacct.analyse.domain.analyseservice.dto;
+package analyse.domain.analyseservice.dto;
 
 import java.util.List;
 

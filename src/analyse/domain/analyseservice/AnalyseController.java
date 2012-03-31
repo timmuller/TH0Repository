@@ -1,7 +1,7 @@
-package com.hu.husacct.analyse.domain.analyseservice;
+package analyse.domain.analyseservice;
 
-import com.hu.husacct.analyse.domain.analyseservice.dto.AnalysedModuleDTO;
-import com.hu.husacct.analyse.domain.analyseservice.dto.DependencyDTO;
+import analyse.domain.analyseservice.dto.AnalysedModuleDTO;
+import analyse.domain.analyseservice.dto.DependencyDTO;
 
 public class AnalyseController implements AnalyseService{
 

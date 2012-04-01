@@ -10,7 +10,7 @@ import analyse.domain.analyseservice.dto.DependencyDTO;
 
 public class AnalyseServiceStub implements AnalyseService{
 
-	private HashMap<String, AnalysedModuleDTO> analysed;
+	private HashMap<String, ArrayList<Object>> analysed;
 	
 	
 	public AnalyseServiceStub(){
@@ -55,20 +55,44 @@ public class AnalyseServiceStub implements AnalyseService{
 		analysedSub.add(new AnalysedModuleDTO("infrastructure", "infrastructure", infrastructureSub));
 		
 		AnalysedModuleDTO analysedModules = new AnalysedModuleDTO("", "root", analysedSub);
-		analysed = new HashMap<String, AnalysedModuleDTO>();
-		
+		analysed = new HashMap<String, ArrayList<Object>>();
+
 		List<AnalysedModuleDTO> rootElement = new ArrayList<AnalysedModuleDTO>();
 		rootElement.add(analysedModules);
 		GenerateHashmap(rootElement);
+		
+		
+		addDependency(new DependencyDTO("domain.locationbased.foursquare.History", "infrastructure.socialmedia.locationbased.foursquare.HistoryDAO", "extends", 10));
+		addDependency(new DependencyDTO("domain.locationbased.latitude.Account", "infrastructure.socialmedia.locationbased.latitude.AccountDAO", "object", 11));
+		addDependency(new DependencyDTO("domain.locationbased.latitude.Friends", "infrastructure.socialmedia.locationbased.latitude.FriendsDAO", "extends", 10));
+		addDependency(new DependencyDTO("domain.locationbased.foursquare.Map", "infrastructure.socialmedia.locationbased.foursquare.IMap", "extends", 10));
+		addDependency(new DependencyDTO("domain.locationbased.foursquare.Account", "infrastructure.socialmedia.locationbased.foursquare.AccountDAO", "object", 10));
+		addDependency(new DependencyDTO("domain.locationbased.foursquare.Friends", "infrastructure.socialmedia.locationbased.foursquare.FriendsDAO", "extends", 10));
+		addDependency(new DependencyDTO("domain.locationbased.latitude.Map", "infrastructure.socialmedia.locationbased.latitude.IMap", "implements", 10));
+	
 	}
 	
 	private void GenerateHashmap(List<AnalysedModuleDTO> subModules) {
 		if(subModules != null){
 			for(AnalysedModuleDTO currentModule : subModules){
-				analysed.put(currentModule.uniqueName, currentModule);
+				ArrayList<Object> objecten = new ArrayList<Object>();
+				ArrayList<DependencyDTO> dependencies = new ArrayList<DependencyDTO>();
+				objecten.add(currentModule);
+				objecten.add(dependencies);
+				
+				analysed.put(currentModule.uniqueName, objecten);
 				GenerateHashmap(currentModule.subModules);
 			}
 		}
+	}
+	
+	private void addDependency(DependencyDTO dependency){
+		ArrayList<Object> getElement = analysed.get(dependency.from);
+		
+		ArrayList<DependencyDTO> dependencies = (ArrayList<DependencyDTO>) getElement.get(1);
+		dependencies.add(dependency);
+		
+		
 	}
 	
 	
@@ -80,15 +104,55 @@ public class AnalyseServiceStub implements AnalyseService{
 	}
 
 	@Override
-	public DependencyDTO getDependency(String from, String to) {
-		// TODO Auto-generated method stub
-		return null;
+	public DependencyDTO[] getDependency(String from, String to) {
+		
+		//YEAH!!! Trainrack!
+		ArrayList<DependencyDTO> dependencies = (ArrayList<DependencyDTO>) analysed.get(from).get(1);
+		if(dependencies.size() == 0){
+			return new DependencyDTO[0];
+		}
+		
+		
+		ArrayList<DependencyDTO> matchedDependencies = new ArrayList<DependencyDTO>();
+		for (DependencyDTO d : dependencies){
+			if(d.to.indexOf(to) != -1){
+				matchedDependencies.add(d);
+			}
+		}
+		
+		if(matchedDependencies.size() != 0){
+			DependencyDTO[] dependencyDTO = new DependencyDTO[matchedDependencies.size()];
+			
+			int iterator = 0;
+			for(DependencyDTO d : matchedDependencies){
+				dependencyDTO[iterator] = d;
+				iterator++;
+			}
+			
+			return dependencyDTO;
+			
+			
+		}
+		
+		
+		return new DependencyDTO[0];
 	}
 
 	@Override
-	public DependencyDTO getDependency(String from) {
-		// TODO Auto-generated method stub
-		return null;
+	public DependencyDTO[] getDependency(String from) {
+	
+		ArrayList<DependencyDTO> dependencies = (ArrayList<DependencyDTO>) analysed.get(from).get(1);
+		if(dependencies.size() == 0){
+			return new DependencyDTO[0];
+		}
+		
+		DependencyDTO[] matchDependency = new DependencyDTO[dependencies.size()];
+		int iterator = 0;
+		for(DependencyDTO d : matchDependency){
+			matchDependency[iterator] = d;
+		}
+		
+		return matchDependency;
 	}
 
 	@Override
@@ -99,7 +163,7 @@ public class AnalyseServiceStub implements AnalyseService{
 
 	@Override
 	public AnalysedModuleDTO[] getModules() {
-		AnalysedModuleDTO rootElement = analysed.get("");
+		AnalysedModuleDTO rootElement = (AnalysedModuleDTO) analysed.get("").get(0);
 		
 		AnalysedModuleDTO[] returnModules = new AnalysedModuleDTO[rootElement.subModules.size()];
 		
@@ -115,7 +179,7 @@ public class AnalyseServiceStub implements AnalyseService{
 
 	@Override
 	public AnalysedModuleDTO[] getChildModulesInModule(String from) {
-		AnalysedModuleDTO getElement = analysed.get(from);
+		AnalysedModuleDTO getElement = (AnalysedModuleDTO) analysed.get(from).get(0);
 		
 		AnalysedModuleDTO[] modules = new AnalysedModuleDTO[getElement.subModules.size()];
 		
@@ -137,7 +201,7 @@ public class AnalyseServiceStub implements AnalyseService{
 			return this.getChildModulesInModule(from);
 		}
 		
-		AnalysedModuleDTO getElement = analysed.get(from);
+		AnalysedModuleDTO getElement = (AnalysedModuleDTO) analysed.get(from).get(0);
 		
 		AnalysedModuleDTO[] modules = new AnalysedModuleDTO[getElement.subModules.size()];
 		
@@ -169,7 +233,7 @@ public class AnalyseServiceStub implements AnalyseService{
 	@Override
 	public AnalysedModuleDTO getParentModule(String child) {
 		if(child.indexOf(".") == -1){
-			return null;
+			return new AnalysedModuleDTO("", "");
 		}
 		
 		String[] pathSplitted = child.split("\\.");
@@ -180,7 +244,7 @@ public class AnalyseServiceStub implements AnalyseService{
 			}
 		}
 		
-		return analysed.get(parentPath);
+		return (AnalysedModuleDTO) analysed.get(parentPath).get(0);
 	}
 
 

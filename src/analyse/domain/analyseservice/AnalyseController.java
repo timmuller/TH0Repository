@@ -20,12 +20,12 @@ public class AnalyseController implements AnalyseService{
 	}
 
 	@Override
-	public DependencyDTO getDependency(String from, String to) {		
+	public DependencyDTO[] getDependency(String from, String to) {		
 		return stub.getDependency(from, to);
 	}
 
 	@Override
-	public DependencyDTO getDependency(String from) {
+	public DependencyDTO[] getDependency(String from) {
 		return stub.getDependency(from);
 	}
 

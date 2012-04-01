@@ -4,6 +4,7 @@ import org.junit.Before;
 
 import analyse.domain.analyseservice.AnalyseController;
 import analyse.domain.analyseservice.dto.AnalysedModuleDTO;
+import analyse.domain.analyseservice.dto.DependencyDTO;
 import junit.framework.*;
 
 
@@ -64,6 +65,24 @@ public class TestDomein extends TestCase{
 		assertEquals("domain.locationbased", module.uniqueName);
 				
 	}
+	
+	public void testGetDependencyFromAndTo(){
+		DependencyDTO[] dependencies = service.getDependency("domain.locationbased.foursquare.History", "infrastructure.socialmedia.locationbased.foursquare.HistoryDAO");		
+		assertEquals(1, dependencies.length);
+	}
+	
+	/*
+	public void testGetDependencyFromAndToMulti(){
+		DependencyDTO[] dependencies = service.getDependency("domain.locationbased.foursquare", "infrastructure.socialmedia.locationbased.foursquare");		
+		assertEquals(1, dependencies.length);
+	}
+	*/
+	
+	public void testGetDependencyFrom(){
+		DependencyDTO[] dependencies = service.getDependency("domain.locationbased.foursquare.History", "infrastructure.socialmedia.locationbased.foursquare.HistoryDAO");		
+		assertEquals(1, dependencies.length);
+	}
+	
 
 
 

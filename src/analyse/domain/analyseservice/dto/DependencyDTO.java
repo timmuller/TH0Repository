@@ -7,7 +7,7 @@ public class DependencyDTO {
 	public String type;
 	public int lineNumber;
 	
-	DependencyDTO(String from, String to, String type, int lineNumber){
+	public DependencyDTO(String from, String to, String type, int lineNumber){
 		this.from = from;
 		this.to = to;
 		this.type = type;

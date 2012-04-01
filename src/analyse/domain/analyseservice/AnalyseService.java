@@ -7,8 +7,8 @@ public interface AnalyseService {
 	
 	public void analyseApplication();
 	
-	public DependencyDTO getDependency(String from, String to);
-	public DependencyDTO getDependency(String from);
+	public DependencyDTO[] getDependency(String from, String to);
+	public DependencyDTO[] getDependency(String from);
 	
 	public String[] getAvailableLanguages();
 	

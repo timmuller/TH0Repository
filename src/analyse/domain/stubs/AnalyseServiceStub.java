@@ -106,25 +106,27 @@ public class AnalyseServiceStub implements AnalyseService{
 	@Override
 	public DependencyDTO[] getDependency(String from, String to) {
 		
-		//YEAH!!! Trainrack!
-		ArrayList<DependencyDTO> dependencies = (ArrayList<DependencyDTO>) analysed.get(from).get(1);
-		if(dependencies.size() == 0){
-			return new DependencyDTO[0];
-		}
-		
-		
-		ArrayList<DependencyDTO> matchedDependencies = new ArrayList<DependencyDTO>();
-		for (DependencyDTO d : dependencies){
-			if(d.to.indexOf(to) != -1){
-				matchedDependencies.add(d);
+		ArrayList<DependencyDTO> allDependencies = new ArrayList<DependencyDTO>();
+			
+		for(String s : analysed.keySet()){
+			if(s.indexOf(from) == -1){
+				continue;
+			}
+			
+			ArrayList<Object> currentElement = analysed.get(s);
+			for(DependencyDTO dependency: (ArrayList<DependencyDTO>) currentElement.get(1)){
+				if(dependency.to.indexOf(to) != -1){
+					allDependencies.add(dependency);
+				}
 			}
 		}
 		
-		if(matchedDependencies.size() != 0){
-			DependencyDTO[] dependencyDTO = new DependencyDTO[matchedDependencies.size()];
+		
+		if(allDependencies.size() != 0){
+			DependencyDTO[] dependencyDTO = new DependencyDTO[allDependencies.size()];
 			
 			int iterator = 0;
-			for(DependencyDTO d : matchedDependencies){
+			for(DependencyDTO d : allDependencies){
 				dependencyDTO[iterator] = d;
 				iterator++;
 			}
@@ -133,7 +135,6 @@ public class AnalyseServiceStub implements AnalyseService{
 			
 			
 		}
-		
 		
 		return new DependencyDTO[0];
 	}

@@ -12,9 +12,9 @@ public interface AnalyseService {
 	
 	public String[] getAvailableLanguages();
 	
-	public AnalysedModuleDTO getModules();
-	public AnalysedModuleDTO getChildModulesInModule(String from); 
-	public AnalysedModuleDTO getChildModulesInModule(String from, int depth);
+	public AnalysedModuleDTO[] getModules();
+	public AnalysedModuleDTO[] getChildModulesInModule(String from); 
+	public AnalysedModuleDTO[] getChildModulesInModule(String from, int depth);
 	public AnalysedModuleDTO getParentModule(String child);
 	
 }

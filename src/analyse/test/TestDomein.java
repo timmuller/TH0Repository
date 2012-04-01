@@ -70,18 +70,23 @@ public class TestDomein extends TestCase{
 		DependencyDTO[] dependencies = service.getDependency("domain.locationbased.foursquare.History", "infrastructure.socialmedia.locationbased.foursquare.HistoryDAO");		
 		assertEquals(1, dependencies.length);
 	}
-	
+		
+	public void testGetDependencyFrom(){
+		DependencyDTO[] dependencies = service.getDependency("domain.locationbased.foursquare.History", "infrastructure.socialmedia.locationbased.foursquare.HistoryDAO");		
+		assertEquals(1, dependencies.length);
+	}
 	
 	public void testGetDependencyFromAndToPackageLevel(){
 		DependencyDTO[] dependencies = service.getDependency("domain.locationbased.foursquare", "infrastructure.socialmedia.locationbased.foursquare");		
 		assertEquals(4, dependencies.length);
 	}
 	
-	
-	public void testGetDependencyFrom(){
-		DependencyDTO[] dependencies = service.getDependency("domain.locationbased.foursquare.History", "infrastructure.socialmedia.locationbased.foursquare.HistoryDAO");		
-		assertEquals(1, dependencies.length);
+	public void testGetDependencyFromPackageLevel(){
+		DependencyDTO[] dependencies = service.getDependency("domain.locationbased.foursquare");		
+		assertEquals(4, dependencies.length);
 	}
+	
+	
 	
 
 

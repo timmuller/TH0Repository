@@ -142,12 +142,21 @@ public class AnalyseServiceStub implements AnalyseService{
 	@Override
 	public DependencyDTO[] getDependency(String from) {
 	
-		ArrayList<DependencyDTO> dependencies = (ArrayList<DependencyDTO>) analysed.get(from).get(1);
-		if(dependencies.size() == 0){
-			return new DependencyDTO[0];
+		ArrayList<DependencyDTO> allDependencies = new ArrayList<DependencyDTO>();
+		
+		for(String s : analysed.keySet()){
+			if(s.indexOf(from) == -1){
+				continue;
+			}
+			
+			ArrayList<Object> currentElement = analysed.get(s);
+			for(DependencyDTO dependency: (ArrayList<DependencyDTO>) currentElement.get(1)){
+				allDependencies.add(dependency);
+			}
 		}
 		
-		DependencyDTO[] matchDependency = new DependencyDTO[dependencies.size()];
+		
+		DependencyDTO[] matchDependency = new DependencyDTO[allDependencies.size()];
 		int iterator = 0;
 		for(DependencyDTO d : matchDependency){
 			matchDependency[iterator] = d;
